@@ -95,7 +95,7 @@
                                         </p>
                                         @if (!is_null($featuredJob->salary))
                                         <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
+                                            <span class="fw-bolder">R$</span>
                                             <span class="ps-1">{{ $featuredJob->salary }}</span>
                                         </p>
                                         @endif
@@ -129,7 +129,7 @@
                             <div class="card border-0 p-3 shadow mb-4">
                                 <div class="card-body">
                                     <h3 class="fs-5 pb-2 mb-0">{{ $latestJob->title }}</h3>
-                                    <p>{{ Str::words(strip_tags($latestJob->description), 15) }}</p>
+                                    <p>{{ Str::words(strip_tags($latestJob->description), 5) }}</p>
                                     <div class="bg-light p-3 border">
                                         <p class="mb-0">
                                             <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
@@ -141,7 +141,7 @@
                                         </p>
                                         @if (!is_null($latestJob->salary))
                                         <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
+                                            <span class="fw-bolder">R$</i></span>
                                             <span class="ps-1">{{ $latestJob->salary }}</span>
                                         </p>
                                         @endif
