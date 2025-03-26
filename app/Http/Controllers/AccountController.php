@@ -49,14 +49,11 @@ class AccountController extends Controller
 
             // Upload do arquivo de curriculum
             if ($request->hasFile('curriculum')) {
-                // Deletar o arquivo antigo, se existir
-                if ($user->curriculum) {
-                    Storage::delete($user->curriculum);
-                }
-
-                // Salvar o novo arquivo
-                $path = $request->file('curriculum')->store('curriculums');
-                $user->curriculum = $path;
+                $image = $request->curriculum;
+                $extension = $image->getClientOriginalExtension();
+                $imageFileName = $id . '-' . md5($id) . '.' . $extension;
+                $image->move(public_path('/curriculum'), $imageFileName);
+                $user->curriculum = $imageFileName;
             }
 
 

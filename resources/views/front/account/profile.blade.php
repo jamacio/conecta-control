@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <label for="site_media" class="mb-2">Site/Rede social</label>
+                                <label for="site_media" class="mb-2">Portfólio/Rede Social</label>
                                 <div class="input-group">
                                     <input type="url" name="site_media" id="site_media" placeholder="Digite o link do site ou rede social"
                                         class="form-control" value="{{ Auth::user()->site_media }}">
@@ -76,7 +76,7 @@
                                 <input type="file" name="curriculum" id="curriculum" class="form-control">
                                 @if (Auth::user()->curriculum)
                                 <small class="form-text text-muted">
-                                    <a href="{{ Storage::url(Auth::user()->curriculum) }}" target="_blank">Ver arquivo atual</a>
+                                    <a href="{{ asset('curriculum/' . Auth::user()->curriculum) }}" target="_blank">Ver arquivo atual</a>
                                 </small>
                                 @endif
                             </div>
