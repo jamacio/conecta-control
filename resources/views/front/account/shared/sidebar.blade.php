@@ -1,7 +1,7 @@
     <div class="card border-0 shadow mb-4 p-3">
         <div class="s-body text-center mt-3">
             @if (Auth::user()->image != '')
-            <img src="{{ asset('profile_picture/thumbnail/' . Auth::user()->image) }}" alt="avatar"
+            <img src="{{ asset('profile_picture/' . Auth::user()->image) }}" alt="avatar"
                 class="rounded-circle img-fluid" style="width: 150px;height: 150px;">
             @else
             <img src="{{ asset('assets/images/avatar.png') }}" alt="avatar" class="rounded-circle img-fluid"

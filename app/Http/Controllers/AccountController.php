@@ -89,22 +89,8 @@ class AccountController extends Controller
         if ($validator->passes()) {
             $image = $request->image;
             $extension = $image->getClientOriginalExtension();
-            $imageFileName = $id . '-' . time() . '.' . $extension;
+            $imageFileName = $id . '-' . md5($id) . '.' . $extension;
             $image->move(public_path('/profile_picture'), $imageFileName);
-
-            $sourcePath = public_path('/profile_picture/' . $imageFileName);
-
-            // create new image instance
-            $manager = new ImageManager(Driver::class);
-            $image = $manager->read($sourcePath);
-
-            // crop the best fitting 1:1 (200, 200) ratio and resize to 200, 200 pixel
-            $image->cover(200, 200);
-            $image->toPng()->save(public_path('/profile_picture/thumbnail/' . $imageFileName));
-
-            // delete old image and thumbnail
-            File::delete(public_path('/profile_picture/' . Auth::user()->image));
-            File::delete(public_path('/profile_picture/thumbnail' . Auth::user()->image));
 
             User::where('id', $id)->update([
                 'image' => $imageFileName,
