@@ -4,11 +4,13 @@
 <section class="section-5">
     <div class="container my-5">
         <div class="py-lg-2">&nbsp;</div>
+        @include('front.account.shared.message')
         <div class="row d-flex justify-content-center">
             <div class="col-md-5">
                 <div class="card shadow border-0 p-5">
                     <h1 class="h3">Registrar</h1>
-                    <form action="" name="registration-form" id="registration-form" autocomplete="on">
+                    <form action="{{ route('account.user.register') }}" method="POST" name="registration-form" id="registration-form" autocomplete="on">
+                        @csrf
                         <div class="mb-3">
                             <label for="name" class="mb-2">Nome*</label>
                             <input type="text" name="name" id="name" class="form-control"
@@ -33,7 +35,7 @@
                                 placeholder="Confirme sua Senha">
                             <p></p>
                         </div>
-                        <button class="btn btn-primary mt-2">Registrar</button>
+                        <button type="submit" class="btn btn-primary mt-2">Registrar</button>
                     </form>
                 </div>
                 <div class="mt-4 text-center">
@@ -47,103 +49,85 @@
 
 @section('customJS')
 <script type="text/javascript">
-    // Script jQuery para registrar formulário usando AJAX
+    // Validações com jQuery
     $("#registration-form").submit(function(e) {
-        e.preventDefault();
+        let hasError = false;
 
-        $.ajax({
-            type: "POST",
-            url: "{{ route('account.user.register') }}",
-            data: $("#registration-form").serializeArray(),
-            dataType: "JSON",
-            success: function(response) {
-                if (response.status == false) {
-                    var errors = response.errors;
+        // Validação do campo Nome
+        if ($("#name").val().trim() === "") {
+            $("#name")
+                .addClass('is-invalid')
+                .siblings('p')
+                .addClass('invalid-feedback')
+                .html('O campo Nome é obrigatório.');
+            hasError = true;
+        } else {
+            $("#name")
+                .removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
+        }
 
-                    if (errors.name) {
-                        $("#name")
-                            .addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback')
-                            .html(errors.name);
-                    } else {
-                        $("#name")
-                            .removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback')
-                            .html('');
-                    }
+        // Validação do campo Email
+        if ($("#email").val().trim() === "") {
+            $("#email")
+                .addClass('is-invalid')
+                .siblings('p')
+                .addClass('invalid-feedback')
+                .html('O campo Email é obrigatório.');
+            hasError = true;
+        } else {
+            $("#email")
+                .removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
+        }
 
-                    if (errors.email) {
-                        $("#email")
-                            .addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback')
-                            .html(errors.email);
-                    } else {
-                        $("#email")
-                            .removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback')
-                            .html('');
-                    }
+        // Validação do campo Senha
+        if ($("#password").val().trim() === "") {
+            $("#password")
+                .addClass('is-invalid')
+                .siblings('p')
+                .addClass('invalid-feedback')
+                .html('O campo Senha é obrigatório.');
+            hasError = true;
+        } else {
+            $("#password")
+                .removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
+        }
 
-                    if (errors.password) {
-                        $("#password")
-                            .addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback')
-                            .html(errors.password);
-                    } else {
-                        $("#password")
-                            .removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback')
-                            .html('');
-                    }
+        // Validação do campo Confirmar Senha
+        if ($("#confirm_password").val().trim() === "") {
+            $("#confirm_password")
+                .addClass('is-invalid')
+                .siblings('p')
+                .addClass('invalid-feedback')
+                .html('O campo Confirmar Senha é obrigatório.');
+            hasError = true;
+        } else if ($("#confirm_password").val() !== $("#password").val()) {
+            $("#confirm_password")
+                .addClass('is-invalid')
+                .siblings('p')
+                .addClass('invalid-feedback')
+                .html('As senhas não coincidem.');
+            hasError = true;
+        } else {
+            $("#confirm_password")
+                .removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
+        }
 
-                    if (errors.confirm_password) {
-                        $("#confirm_password")
-                            .addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback')
-                            .html(errors.confirm_password);
-                    } else {
-                        $("#confirm_password")
-                            .removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback')
-                            .html('');
-                    }
-                } else {
-                    $("#name")
-                        .removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-
-                    $("#email")
-                        .removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-
-                    $("#password")
-                        .removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-
-                    $("#confirm_password")
-                        .removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-
-                    window.location.href = "{{ route('account.login.index') }}";
-                }
-            }
-        });
+        // Impede o envio do formulário se houver erros
+        if (hasError) {
+            e.preventDefault();
+        }
     });
 </script>
 @endsection

@@ -49,18 +49,14 @@ class AuthController extends Controller
             $user->password = bcrypt($request->password);
             $user->save();
 
-            $message = 'User registered successfully!';
-            // session()->flash('success', $message);
-
-            // redirect to verification page with flash message
+            $message = 'Usuário registrado com sucesso!';
             return redirect()
-                ->route('account.verification', $user->id)
+                ->route('account.login.index')
                 ->with('success', $message);
         } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors(),
-            ]);
+            return redirect()
+                ->route('account.registration.index')
+                ->with('error', $validator->errors()->first());
         }
     }
 
@@ -73,22 +69,27 @@ class AuthController extends Controller
         $userCredential = $request->only('email', 'password');
         $userData = User::where('email', $request->email)->first();
 
+        if (Auth::attempt($userCredential)) {
+            return redirect()->route('account.profile.show');
+        } else {
+            return redirect()
+                ->route('account.login.index')
+                ->with('error', 'E-mail ou senha inválidos!');
+        }
 
-        // redirect to verification page if the user is not verified
         if ($userData && $userData->is_verified == 0) {
             $this->sendOtp($userData);
 
             return redirect()
                 ->route('account.verification', $userData->id)
-                ->with('error', 'Please verify your email address!');
+                ->with('error', 'Por favor, verifique seu endereço de e-mail!');
         } else if ($validator->passes()) {
-            // if the form data is valid then attempt to login the user
             if (Auth::attempt($userCredential)) {
                 return redirect()->route('account.profile.show');
             } else {
                 return redirect()
                     ->route('account.login.index')
-                    ->with('error', 'Invalid email or password!');
+                    ->with('error', 'E-mail ou senha inválidos!');
             }
         } else {
             return redirect()
@@ -117,7 +118,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => false,
                 'errors' => [
-                    'old_password' => ['Old password does not match!'],
+                    'old_password' => ['A senha antiga não corresponde!'],
                 ],
             ]);
         }
@@ -126,7 +127,7 @@ class AuthController extends Controller
         $user->password = bcrypt($request->new_password);
         $user->save();
 
-        $message = 'Password updated successfully!';
+        $message = 'Senha atualizada com sucesso!';
         session()->flash('success', $message);
 
         return response()->json([
@@ -176,7 +177,7 @@ class AuthController extends Controller
 
         return redirect()
             ->route('account.forgot.password')
-            ->with('success', 'Password reset link has been sent to your email.');
+            ->with('success', 'O link para redefinição de senha foi enviado para o seu e-mail.');
     }
 
     public function resetPassword($tokenString)
@@ -186,7 +187,7 @@ class AuthController extends Controller
         if ($token == NULL) {
             return redirect()
                 ->route('account.forgot.password')
-                ->with('error', 'Invalid password reset token!');
+                ->with('error', 'Token de redefinição de senha inválido!');
         }
 
         return view('front.account.reset-password', compact('tokenString'));
@@ -201,7 +202,7 @@ class AuthController extends Controller
         if ($token == NULL) {
             return redirect()
                 ->route('account.forgot.password')
-                ->with('error', 'Invalid password reset token!');
+                ->with('error', 'Token de redefinição de senha inválido!');
         }
 
         $validator = Validator::make($request->all(), [
@@ -220,7 +221,7 @@ class AuthController extends Controller
 
         return redirect()
             ->route('account.login.index')
-            ->with('success', 'Password changed successfully.');
+            ->with('success', 'Senha alterada com sucesso.');
     }
 
     public function verification($id)
@@ -256,8 +257,8 @@ class AuthController extends Controller
             'otp' => $otp,
             'name' => $user->name,
             'email' => $user->email,
-            'title' => 'Email Verification OTP',
-            'subject' => 'Email Verification OTP',
+            'title' => 'OTP de Verificação de E-mail',
+            'subject' => 'OTP de Verificação de E-mail',
         ];
 
         Mail::to($user->email)->send(new MailEmailVerification($mailData));
@@ -272,28 +273,28 @@ class AuthController extends Controller
             return response()->json(
                 [
                     'success' => false,
-                    'msg' => 'You entered wrong OTP'
+                    'msg' => 'Você inseriu um OTP incorreto'
                 ]
             );
         } else {
             $currentTime = time();
             $time = $otpData->created_at;
 
-            if ($currentTime >= $time && $time >= $currentTime - (90 + 5)) { //90 seconds
+            if ($currentTime >= $time && $time >= $currentTime - (90 + 5)) { //90 segundos
                 User::where('id', $user->id)->update([
                     'is_verified' => 1
                 ]);
                 return response()->json(
                     [
                         'success' => true,
-                        'msg' => 'Mail has been verified'
+                        'msg' => 'E-mail foi verificado'
                     ]
                 );
             } else {
                 return response()->json(
                     [
                         'success' => false,
-                        'msg' => 'Your OTP has been Expired'
+                        'msg' => 'Seu OTP expirou'
                     ]
                 );
             }
@@ -308,20 +309,20 @@ class AuthController extends Controller
         $currentTime = time();
         $time = $otpData->created_at;
 
-        if ($currentTime >= $time && $time >= $currentTime - (90 + 5)) { //90 seconds
+        if ($currentTime >= $time && $time >= $currentTime - (90 + 5)) { //90 segundos
             return response()->json(
                 [
                     'success' => false,
-                    'msg' => 'Please try after some time'
+                    'msg' => 'Por favor, tente novamente mais tarde'
                 ]
             );
         } else {
-            $this->sendOtp($user); //OTP SEND
+            $this->sendOtp($user); // Enviar OTP
 
             return response()->json(
                 [
                     'success' => true,
-                    'msg' => 'OTP has been sent'
+                    'msg' => 'OTP foi enviado'
                 ]
             );
         }
