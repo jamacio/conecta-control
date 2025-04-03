@@ -41,33 +41,28 @@
                                 <input type="text" name="designation" id="designation" placeholder="Digite o Cargo"
                                     class="form-control" value="{{ $user->designation }}">
                             </div>
-                            <div class="mb-4">
-                                <label for="mobile" class="mb-2">Celular</label>
-                                <input type="number" name="mobile" id="mobile" placeholder="Digite o Celular"
-                                    class="form-control" value="{{ $user->mobile }}">
-                            </div>
 
 
                             <div class="mb-4">
                                 <label for="mobile" class="mb-2">Celular/WhatsApp</label>
                                 <div class="input-group">
                                     <input type="number" name="mobile" id="mobile" placeholder="Digite o Celular"
-                                        class="form-control" value="{{ Auth::user()->mobile }}">
+                                        class="form-control" value="{{ $user->mobile }}">
                                 </div>
                             </div>
                             <div class="mb-4">
                                 <label for="site_media" class="mb-2">Portfólio/Rede Social</label>
                                 <div class="input-group">
                                     <input type="url" name="site_media" id="site_media" placeholder="Digite o link do site ou rede social"
-                                        class="form-control" value="{{ Auth::user()->site_media }}">
+                                        class="form-control" value="{{ $user->site_media }}">
                                 </div>
                             </div>
 
                             <div class="mb-4">
                                 <label for="curriculum" class="mb-2">Currículo: </label>
-                                @if (Auth::user()->curriculum)
+                                @if ($user->curriculum)
                                 <small class="form-text text-muted">
-                                    <a href="{{ asset('curriculum/' . Auth::user()->curriculum) }}" target="_blank">Ver arquivo atual</a>
+                                    <a href="{{ asset('curriculum/' . $user->curriculum) }}" target="_blank">Ver arquivo atual</a>
                                 </small>
                                 @endif
                             </div>

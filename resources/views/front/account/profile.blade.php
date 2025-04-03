@@ -49,13 +49,7 @@
                                 <input type="text" name="designation" id="designation" placeholder="Cargo"
                                     class="form-control" value="{{ Auth::user()->designation }}">
                             </div>
-                            <div class="mb-4">
-                                <label for="mobile" class="mb-2">Celular/WhatsApp</label>
-                                <div class="input-group">
-                                    <input type="number" name="mobile" id="mobile" placeholder="Celular"
-                                        class="form-control" value="{{ Auth::user()->mobile }}">
-                                </div>
-                            </div>
+
                             <div class="mb-4">
                                 <label for="mobile" class="mb-2">Celular/WhatsApp</label>
                                 <div class="input-group">
