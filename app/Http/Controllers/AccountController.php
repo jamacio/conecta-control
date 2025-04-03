@@ -132,7 +132,6 @@ class AccountController extends Controller
             'description' => 'required',
             'company_name' => 'required|min:5|max:100',
             'company_location' => 'required|min:5|max:100',
-            'company_website' => 'required|min:5|max:100',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -216,7 +215,6 @@ class AccountController extends Controller
             'description' => 'required',
             'company_name' => 'required|min:5|max:100',
             'company_location' => 'required|min:5|max:100',
-            'company_website' => 'required|min:5|max:100',
         ];
 
         $validator = Validator::make($request->all(), $rules);
