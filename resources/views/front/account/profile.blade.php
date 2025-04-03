@@ -21,6 +21,9 @@
                 @include('front.account.shared.message')
                 <div class="card border-0 shadow mb-4">
                     <form action="" method="POST" id="user-form" name="user-form">
+
+
+
                         <div class="card-body p-4">
                             <h3 class="fs-4 mb-1">Meu Perfil</h3>
                             <div class="mb-4">
@@ -76,11 +79,51 @@
                             </div>
 
                         </div>
+
+
+
+
+
+                        <div class="card-body p-4">
+                            <h3 class="fs-4 mb-1">Endereço</h3>
+                            <div class="mb-4">
+                                <label for="cep" class="mb-2">CEP*</label>
+                                <input type="text" name="cep" id="cep" placeholder="Digite o CEP" class="form-control">
+                                <p></p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="street" class="mb-2">Rua*</label>
+                                <input type="text" name="street" id="street" placeholder="Digite a Rua" class="form-control">
+                                <p></p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="number" class="mb-2">Número*</label>
+                                <input type="text" name="number" id="number" placeholder="Digite o Número" class="form-control">
+                                <p></p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="city" class="mb-2">Cidade*</label>
+                                <input type="text" name="city" id="city" placeholder="Digite a Cidade" class="form-control">
+                                <p></p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="state" class="mb-2">Estado*</label>
+                                <input type="text" name="state" id="state" placeholder="Digite o Estado" class="form-control" value="São Paulo">
+                                <p></p>
+                            </div>
+                        </div>
+
+
+
+
+
+
                         <div class="card-footer p-4">
                             <button type="submit" class="btn btn-primary">Atualizar</button>
                         </div>
                     </form>
                 </div>
+
 
                 <div class="card border-0 shadow mb-4">
                     <form action="" method="POST" id="change-password-form" name="change-password-form"
@@ -122,6 +165,35 @@
 @endsection
 
 @section('customJS')
+<script type="text/javascript">
+    $("#cep").on("blur", function() {
+        var cep = $(this).val().replace(/\D/g, '');
+
+        if (cep != "") {
+            var validacep = /^[0-9]{8}$/;
+
+            if (validacep.test(cep)) {
+                $.getJSON("https://viacep.com.br/ws/" + cep + "/json/", function(data) {
+                    if (!("erro" in data)) {
+                        $("#street").val(data.logradouro).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
+                        $("#city").val(data.localidade).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
+                        $("#state").val(data.uf).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
+                    } else {
+                        alert("CEP não encontrado.");
+                        $("#street, #city, #state").val('').addClass('is-invalid').siblings('p').addClass('invalid-feedback').html('CEP não encontrado.');
+                    }
+                }).fail(function() {
+                    alert("Erro ao buscar o CEP. Tente novamente.");
+                });
+            } else {
+                alert("Formato de CEP inválido.");
+                $("#cep").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html('Formato de CEP inválido.');
+            }
+        }
+    });
+</script>
+
+
 <script type="text/javascript">
     $("#user-form").submit(function(e) {
         e.preventDefault();

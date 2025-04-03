@@ -69,7 +69,34 @@
 
 
 
-
+                            <div class="card-body p-4">
+                                <h3 class="fs-4 mb-1">Endereço</h3>
+                                <div class="mb-4">
+                                    <label for="cep" class="mb-2">CEP*</label>
+                                    <input type="text" name="cep" id="cep" placeholder="Digite o CEP" class="form-control" value="{{ $user->cep }}">
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="street" class="mb-2">Rua*</label>
+                                    <input type="text" name="street" id="street" placeholder="Digite a Rua" class="form-control" value="{{ $user->street }}">
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="number" class="mb-2">Número*</label>
+                                    <input type="text" name="number" id="number" placeholder="Digite o Número" class="form-control" value="{{ $user->number }}">
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="city" class="mb-2">Cidade*</label>
+                                    <input type="text" name="city" id="city" placeholder="Digite a Cidade" class="form-control" value="{{ $user->city }}">
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="state" class="mb-2">Estado*</label>
+                                    <input type="text" name="state" id="state" placeholder="Digite o Estado" class="form-control" value="{{ $user->state }}">
+                                    <p></p>
+                                </div>
+                            </div>
 
 
 

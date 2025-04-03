@@ -45,6 +45,11 @@ class AccountController extends Controller
             $user->designation = $request->designation;
             $user->mobile = $request->mobile;
             $user->site_media = $request->site_media;
+            $user->cep = $request->cep;
+            $user->street = $request->street;
+            $user->number = $request->number;
+            $user->city = $request->city;
+            $user->state = $request->state;
 
 
             // Upload do arquivo de curriculum
