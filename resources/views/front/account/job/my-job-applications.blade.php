@@ -49,6 +49,8 @@
                                         <td>
                                             @if ($jobApplication->job->status == 1)
                                             <div class="job-status text-capitalize">Ativa</div>
+                                            @elseif ($jobApplication->job->status == 2)
+                                            <div class="job-status text-capitalize">Fechada</div>
                                             @else
                                             <div class="job-status text-capitalize">Inativa</div>
                                             @endif

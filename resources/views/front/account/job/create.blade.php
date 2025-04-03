@@ -24,6 +24,17 @@
                         <div class="card-body card-form p-4">
                             <h3 class="fs-4 mb-1">Detalhes da Vaga</h3>
                             <div class="row">
+                                <div class="col-md-12 mb-12">
+                                    <label for="status" class="mb-2">Status da Vaga<span class="req">*</span></label>
+                                    <select class="form-select form-control col-md-4 mb-4" name="status" id="status">
+                                        <option value="0">Desabilitado</option>
+                                        <option value="1">Ativa</option>
+                                        <option value="2">Fechada</option>
+                                    </select>
+                                    <p></p>
+                                </div>
+
+
                                 <div class="col-md-6 mb-4">
                                     <label for="title" class="mb-2">Título<span class="req">*</span></label>
                                     <input type="text" placeholder="Título da Vaga" id="title" name="title"

@@ -155,6 +155,7 @@ class AccountController extends Controller
             $job->company_name = $request->company_name;
             $job->company_location = $request->company_location;
             $job->company_website = $request->company_website;
+            $job->status = $request->status;
 
             $job->save();
 
@@ -238,6 +239,7 @@ class AccountController extends Controller
             $job->company_name = $request->company_name;
             $job->company_location = $request->company_location;
             $job->company_website = $request->company_website;
+            $job->status = $request->status;
 
             $job->save();
 
