@@ -167,7 +167,7 @@
                                     </span>
                                 </li>
                                 <li>Vagas: <span>{{ $job->vacancy }}</span></li>
-                                <li>Salário: <span>{{ $job->salary }}</span></li>
+                                <li>Salário: <span>{{ $job->salary ? 'R$ ' . $job->salary : 'A combinar' }}</span></li>
                                 <li>Localização: <span>{{ $job->location }}</span></li>
                                 <li>Tipo de Trabalho: <span>{{ $job->jobType->name }}</span></li>
                             </ul>
