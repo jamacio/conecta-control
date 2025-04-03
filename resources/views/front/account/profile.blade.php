@@ -167,30 +167,34 @@
 
 @section('customJS')
 <script type="text/javascript">
-    $("#cep").on("blur", function() {
-        var cep = $(this).val().replace(/\D/g, '');
+    $(document).ready(function() {
+        $("#cep").on("blur", function() {
+            var cep = $(this).val().replace(/\D/g, '');
 
-        if (cep != "") {
-            var validacep = /^[0-9]{8}$/;
+            if (cep !== "") {
+                var validacep = /^[0-9]{8}$/;
 
-            if (validacep.test(cep)) {
-                $.getJSON("https://viacep.com.br/ws/" + cep + "/json/", function(data) {
-                    if (!("erro" in data)) {
-                        $("#street").val(data.logradouro).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
-                        $("#city").val(data.localidade).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
-                        $("#state").val(data.uf).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
-                    } else {
-                        alert("CEP não encontrado.");
-                        $("#street, #city, #state").val('').addClass('is-invalid').siblings('p').addClass('invalid-feedback').html('CEP não encontrado.');
-                    }
-                }).fail(function() {
-                    alert("Erro ao buscar o CEP. Tente novamente.");
-                });
-            } else {
-                alert("Formato de CEP inválido.");
-                $("#cep").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html('Formato de CEP inválido.');
+                if (validacep.test(cep)) {
+                    var baseUrl = window.location.origin;
+
+                    $.getJSON(baseUrl + "/api/cep/" + cep, function(data) {
+                        if (data && data.cep) {
+                            $("#street").val(data.logradouro).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
+                            $("#city").val(data.localidade).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
+                            $("#state").val(data.estado).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
+                        } else {
+                            alert("CEP não encontrado.");
+                            $("#street, #city, #state").val('').addClass('is-invalid').siblings('p').addClass('invalid-feedback').html('CEP não encontrado.');
+                        }
+                    }).fail(function() {
+                        alert("Erro ao buscar o CEP. Tente novamente.");
+                    });
+                } else {
+                    alert("Formato de CEP inválido.");
+                    $("#cep").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html('Formato de CEP inválido.');
+                }
             }
-        }
+        });
     });
 </script>
 
