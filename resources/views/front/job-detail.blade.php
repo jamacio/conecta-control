@@ -117,6 +117,7 @@
                                         <th scope="col">Nome</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Data de Candidatura</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="border-0">
@@ -131,6 +132,11 @@
                                                 href="mailto:{{ $application->user->email }}">{{ $application->user->email }}</a>
                                         </td>
                                         <td>{{ \Carbon\Carbon::parse($application->applied_date)->format('d M, Y') }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url('/admin/users/' . $application->user->id . '/edit') }}" class="btn btn-sm btn-primary">
+                                                <i class="fa fa-eye"></i> Visualizar
+                                            </a>
                                         </td>
                                     </tr>
                                     @endforeach

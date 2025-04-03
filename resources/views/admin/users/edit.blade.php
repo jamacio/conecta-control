@@ -8,7 +8,7 @@
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                        <li class="breadcrumb-item active">Edit User</li>
+                        <li class="breadcrumb-item active">Candidato</li>
                     </ol>
                 </nav>
             </div>
@@ -23,33 +23,70 @@
                     <form action="" method="POST" id="user-edit-form" name="user-edit-form">
                         @method('PUT')
                         <div class="card-body p-4">
-                            <h3 class="fs-4 mb-1">Edit User</h3>
+                            <h3 class="fs-4 mb-1">Candidato</h3>
                             <div class="mb-4">
-                                <label for="name" class="mb-2">Name*</label>
-                                <input type="text" name="name" id="name" placeholder="Enter Name"
+                                <label for="name" class="mb-2">Nome*</label>
+                                <input type="text" name="name" id="name" placeholder="Digite o Nome"
                                     class="form-control" value="{{ $user->name }}">
                                 <p></p>
                             </div>
                             <div class="mb-4">
-                                <label for="email" class="mb-2">Email*</label>
-                                <input type="email" name="email" id="email" placeholder="Enter Email"
+                                <label for="email" class="mb-2">E-mail*</label>
+                                <input type="email" name="email" id="email" placeholder="Digite o E-mail"
                                     class="form-control" value="{{ $user->email }}">
                                 <p></p>
                             </div>
                             <div class="mb-4">
-                                <label for="designation" class="mb-2">Designation</label>
-                                <input type="text" name="designation" id="designation" placeholder="Designation"
+                                <label for="designation" class="mb-2">Cargo</label>
+                                <input type="text" name="designation" id="designation" placeholder="Digite o Cargo"
                                     class="form-control" value="{{ $user->designation }}">
                             </div>
                             <div class="mb-4">
-                                <label for="mobile" class="mb-2">Mobile</label>
-                                <input type="number" name="mobile" id="mobile" placeholder="Mobile"
+                                <label for="mobile" class="mb-2">Celular</label>
+                                <input type="number" name="mobile" id="mobile" placeholder="Digite o Celular"
                                     class="form-control" value="{{ $user->mobile }}">
                             </div>
+
+
+                            <div class="mb-4">
+                                <label for="mobile" class="mb-2">Celular/WhatsApp</label>
+                                <div class="input-group">
+                                    <input type="number" name="mobile" id="mobile" placeholder="Digite o Celular"
+                                        class="form-control" value="{{ Auth::user()->mobile }}">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="site_media" class="mb-2">Portfólio/Rede Social</label>
+                                <div class="input-group">
+                                    <input type="url" name="site_media" id="site_media" placeholder="Digite o link do site ou rede social"
+                                        class="form-control" value="{{ Auth::user()->site_media }}">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="curriculum" class="mb-2">Currículo: </label>
+                                @if (Auth::user()->curriculum)
+                                <small class="form-text text-muted">
+                                    <a href="{{ asset('curriculum/' . Auth::user()->curriculum) }}" target="_blank">Ver arquivo atual</a>
+                                </small>
+                                @endif
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
                         </div>
-                        <div class="card-footer p-4">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
+                        <!-- <div class="card-footer p-4">
+                            <button type="submit" class="btn btn-primary">Atualizar</button>
+                        </div> -->
                     </form>
                 </div>
             </div>

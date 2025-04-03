@@ -21,10 +21,11 @@
                 <li class="list-group-item d-flex justify-content-between p-3 {{ Route::is('account.profile.show') ? 'active' : '' }}">
                     <a href="{{ route('account.profile.show') }}">Configurações da Conta</a>
                 </li>
-
+                @if (Auth::user()->role == 'admin')
                 <li class="list-group-item d-flex justify-content-between p-3 {{ Route::is('account.job.my') ? 'active' : '' }}">
                     <a href="{{ route('account.job.my') }}">Minhas Vagas</a>
                 </li>
+                @endif
                 <li class="list-group-item d-flex justify-content-between p-3 {{ Route::is('account.job.applied') ? 'active' : '' }}">
                     <a href="{{ route('account.job.applied') }}">Vagas Candidatadas</a>
                 </li>
