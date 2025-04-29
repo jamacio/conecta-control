@@ -87,8 +87,8 @@
                             <a href="#" onclick="applyJob({{ $job->id }})" class="btn btn-primary">Candidatar-se</a>
                             @endauth
                             @guest
-                            <a href="javascript:void(0);" class="btn btn-primary">Faça login para salvar</a>
-                            <a href="javascript:void(0);" class="btn btn-primary">Faça login para se candidatar</a>
+                            <a href="{{ route('account.registration.index') }}" class="btn btn-primary">Faça login para salvar</a>
+                            <a href="{{ route('account.registration.index') }}" class="btn btn-primary">Faça login para se candidatar</a>
                             @endguest
                         </div>
                     </div>
